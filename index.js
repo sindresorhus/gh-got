@@ -28,8 +28,8 @@ function ghGot(path, opts, cb) {
 		opts.headers['authorization'] = 'token ' + token;
 	}
 
-	var endpoint = env.GITHUB_ENDPOINT ? env.GITHUB_ENDPOINT.replace(/[^/]$/, '$&/') : 'https://api.github.com/';
-	var url = endpoint + path;
+	var endpoint = env.GITHUB_ENDPOINT ? env.GITHUB_ENDPOINT.replace(/[^/]$/, '$&/') : opts.endpoint;
+	var url = (endpoint ? endpoint : 'https://api.github.com/') + path;
 
 	return got(url, opts, cb);
 };
