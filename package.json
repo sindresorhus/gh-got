@@ -1,0 +1,42 @@
+{
+  "name": "gh-got",
+  "version": "0.0.0",
+  "description": "Convenience wrapper for `got` to interact with the GitHub API",
+  "license": "MIT",
+  "repository": "sindresorhus/gh-got",
+  "author": {
+    "name": "Sindre Sorhus",
+    "email": "sindresorhus@gmail.com",
+    "url": "sindresorhus.com"
+  },
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "scripts": {
+    "test": "node test.js"
+  },
+  "files": [
+    "index.js"
+  ],
+  "keywords": [
+    "got",
+    "gh",
+    "github",
+    "api",
+    "request",
+    "http",
+    "https",
+    "get",
+    "url",
+    "uri",
+    "util",
+    "utility"
+  ],
+  "dependencies": {
+    "got": "^2.7.2",
+    "object-assign": "^2.0.0"
+  },
+  "devDependencies": {
+    "ava": "0.0.4"
+  }
+}
