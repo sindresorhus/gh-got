@@ -29,7 +29,7 @@ function ghGot(path, opts, cb) {
 	}
 
 	var endpoint = env.GITHUB_ENDPOINT ? env.GITHUB_ENDPOINT.replace(/[^/]$/, '$&/') : opts.endpoint;
-	var url = (endpoint ? endpoint : 'https://api.github.com/') + path;
+	var url = (endpoint || 'https://api.github.com/') + path;
 
 	return got(url, opts, cb);
 };
