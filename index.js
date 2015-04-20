@@ -13,7 +13,7 @@ function ghGot(path, opts, cb) {
 	}
 
 	cb = cb || function () {};
-	opts = objectAssign({}, opts, {json: true});
+	opts = objectAssign({json: true}, opts);
 
 	opts.headers = objectAssign({
 		'accept': 'application/vnd.github.v3+json',
