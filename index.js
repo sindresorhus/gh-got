@@ -17,7 +17,6 @@ function ghGot(path, opts, cb) {
 
 	opts.headers = objectAssign({
 		'accept': 'application/vnd.github.v3+json',
-		'content-length': 0,
 		'user-agent': 'https://github.com/sindresorhus/gh-got'
 	}, opts.headers);
 
@@ -26,6 +25,11 @@ function ghGot(path, opts, cb) {
 
 	if (token) {
 		opts.headers['authorization'] = 'token ' + token;
+	}
+
+	// https://developer.github.com/v3/#http-verbs
+	if (opts.method && opts.method.toLowerCase() === 'put' && !opts.body) {
+		opts.headers['content-length'] = 0;
 	}
 
 	var endpoint = env.GITHUB_ENDPOINT ? env.GITHUB_ENDPOINT.replace(/[^/]$/, '$&/') : opts.endpoint;
