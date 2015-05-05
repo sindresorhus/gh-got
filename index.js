@@ -7,12 +7,11 @@ function ghGot(path, opts, cb) {
 		throw new Error('path required');
 	}
 
-	if (typeof opts !== 'object') {
+	if (typeof opts === 'function') {
 		cb = opts;
 		opts = {};
 	}
 
-	cb = cb || function () {};
 	opts = objectAssign({json: true}, opts);
 
 	opts.headers = objectAssign({
