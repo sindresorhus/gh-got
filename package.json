@@ -1,6 +1,6 @@
 {
   "name": "gh-got",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Convenience wrapper for `got` to interact with the GitHub API",
   "license": "MIT",
   "repository": "sindresorhus/gh-got",
