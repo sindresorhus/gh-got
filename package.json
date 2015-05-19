@@ -33,7 +33,7 @@
     "utility"
   ],
   "dependencies": {
-    "got": "^2.7.2",
+    "got": "^3.2.0",
     "object-assign": "^2.0.0"
   },
   "devDependencies": {
