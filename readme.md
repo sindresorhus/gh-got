@@ -19,10 +19,10 @@ var got = require('got');
 var token = 'foo';
 
 got('https://api.github.com/users/sindresorhus', {
-	json: true
+	json: true,
 	headers: {
 		'accept': 'application/vnd.github.v3+json',
-		'authorization': 'token ' + token;
+		'authorization': 'token ' + token
 	}
 }, function (err, data) {
 	console.log(data.login);
