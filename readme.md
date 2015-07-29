@@ -48,7 +48,7 @@ Same as [`got`](https://github.com/sindresorhus/got), but with some additional o
 
 ### token
 
-Type: `string`
+Type: `object`
 
 GitHub [access token](https://github.com/settings/tokens/new).
 
