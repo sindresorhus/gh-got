@@ -2,6 +2,7 @@
   "name": "gh-got",
   "version": "1.1.0",
   "description": "Convenience wrapper for `got` to interact with the GitHub API",
+  "homepage": "https://github.com/sindresorhus/gh-got/",
   "license": "MIT",
   "repository": "sindresorhus/gh-got",
   "author": {
