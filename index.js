@@ -7,14 +7,10 @@ function ghGot(path, opts) {
 		throw new Error('path required');
 	}
 
-	if (!opts) {
-		opts = {};
-	}
-
 	opts = objectAssign({json: true}, opts);
 
 	opts.headers = objectAssign({
-		accept: 'application/vnd.github.v3+json',
+		'accept': 'application/vnd.github.v3+json',
 		'user-agent': 'https://github.com/sindresorhus/gh-got'
 	}, opts.headers);
 

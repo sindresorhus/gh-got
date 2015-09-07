@@ -24,14 +24,10 @@ got('https://api.github.com/users/sindresorhus', {
 		'accept': 'application/vnd.github.v3+json',
 		'authorization': 'token ' + token
 	}
-})
-.then(function (res) {
+}).then(function (res) {
 	console.log(res.body.login);
 	//=> 'sindresorhus'
 })
-.catch(function (err) {
-	console.log(err);
-});
 ```
 
 You can do:
@@ -39,14 +35,10 @@ You can do:
 ```js
 var ghGot = require('gh-got');
 
-ghGot('users/sindresorhus', {token: 'foo'})
-.then(function (res) {
+ghGot('users/sindresorhus', {token: 'foo'}).then(function (res) {
 	console.log(res.body.login);
 	//=> 'sindresorhus'
 })
-.catch(function (err) {
-	console.log(err);
-});
 ```
 
 
@@ -60,7 +52,7 @@ Type: `string`
 
 GitHub [access token](https://github.com/settings/tokens/new).
 
-Can be overriden globally with the `GITHUB_TOKEN` environment variable.
+Can be overridden globally with the `GITHUB_TOKEN` environment variable.
 
 ### endpoint
 
@@ -69,7 +61,7 @@ Default: `https://api.github.com/`
 
 To support [GitHub Enterprise](https://enterprise.github.com).
 
-Can be overriden globally with the `GITHUB_ENDPOINT` environment variable.
+Can be overridden globally with the `GITHUB_ENDPOINT` environment variable.
 
 
 ## License
