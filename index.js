@@ -2,13 +2,12 @@
 var got = require('got');
 var objectAssign = require('object-assign');
 
-function ghGot(path, opts, cb) {
+function ghGot(path, opts) {
 	if (!path) {
 		throw new Error('path required');
 	}
 
-	if (typeof opts === 'function') {
-		cb = opts;
+	if (!opts) {
 		opts = {};
 	}
 
@@ -34,7 +33,7 @@ function ghGot(path, opts, cb) {
 	var endpoint = env.GITHUB_ENDPOINT ? env.GITHUB_ENDPOINT.replace(/[^/]$/, '$&/') : opts.endpoint;
 	var url = (endpoint || 'https://api.github.com/') + path;
 
-	return got(url, opts, cb);
+	return got(url, opts);
 }
 
 [
@@ -45,8 +44,8 @@ function ghGot(path, opts, cb) {
 	'head',
 	'delete'
 ].forEach(function (el) {
-	ghGot[el] = function (url, opts, cb) {
-		return ghGot(url, objectAssign({}, opts, {method: el.toUpperCase()}), cb);
+	ghGot[el] = function (url, opts) {
+		return ghGot(url, objectAssign({}, opts, {method: el.toUpperCase()}));
 	};
 });
 

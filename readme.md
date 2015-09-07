@@ -24,9 +24,13 @@ got('https://api.github.com/users/sindresorhus', {
 		'accept': 'application/vnd.github.v3+json',
 		'authorization': 'token ' + token
 	}
-}, function (err, data) {
-	console.log(data.login);
+})
+.then(function (res) {
+	console.log(res.body.login);
 	//=> 'sindresorhus'
+})
+.catch(function (err) {
+	console.log(err);
 });
 ```
 
@@ -35,9 +39,13 @@ You can do:
 ```js
 var ghGot = require('gh-got');
 
-ghGot('users/sindresorhus', {token: 'foo'}, function (err, data) {
-	console.log(data.login);
+ghGot('users/sindresorhus', {token: 'foo'})
+.then(function (res) {
+	console.log(res.body.login);
 	//=> 'sindresorhus'
+})
+.catch(function (err) {
+	console.log(err);
 });
 ```
 

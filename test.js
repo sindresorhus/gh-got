@@ -5,23 +5,26 @@ var ghGot = require('./');
 test('default', function (t) {
 	t.plan(1);
 
-	ghGot('users/sindresorhus', function (err, data) {
-		t.assert(data.login === 'sindresorhus');
+	ghGot('users/sindresorhus')
+	.then(function (res) {
+		t.assert(res.body.login === 'sindresorhus');
 	});
 });
 
 test('should accept options', function (t) {
 	t.plan(1);
 
-	ghGot('users/sindresorhus', {}, function (err, data) {
-		t.assert(data.login === 'sindresorhus');
+	ghGot('users/sindresorhus', {})
+	.then(function (res) {
+		t.assert(res.body.login === 'sindresorhus');
 	});
 });
 
 test('token option', function (t) {
 	t.plan(1);
 
-	ghGot('users/sindresorhus', {token: 'fail'}, function (err, data) {
+	ghGot('users/sindresorhus', {token: 'fail'})
+	.catch(function (err) {
 		t.assert(err, err);
 	});
 });
@@ -29,7 +32,8 @@ test('token option', function (t) {
 test('endpoint option', function (t) {
 	t.plan(1);
 
-	ghGot('users/sindresorhus', {endpoint: 'fail'}, function (err, data) {
+	ghGot('users/sindresorhus', {endpoint: 'fail'})
+	.catch(function (err) {
 		t.assert(err, err);
 	});
 });
