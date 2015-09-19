@@ -4,8 +4,8 @@ var objectAssign = require('object-assign');
 var PinkiePromise = require('pinkie-promise');
 
 function ghGot(path, opts) {
-	if (!path) {
-		return PinkiePromise.reject(new Error('path required'));
+	if (typeof path !== 'string') {
+		return PinkiePromise.reject(new TypeError('Path should be a string'));
 	}
 
 	opts = objectAssign({json: true}, opts);
