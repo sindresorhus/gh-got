@@ -1,10 +1,11 @@
 'use strict';
 var got = require('got');
 var objectAssign = require('object-assign');
+var Promise = require('pinkie-promise');
 
 function ghGot(path, opts) {
-	if (!path) {
-		throw new Error('path required');
+	if (typeof path !== 'string') {
+		return Promise.reject(new TypeError('Path should be a string'));
 	}
 
 	opts = objectAssign({json: true}, opts);

@@ -33,8 +33,9 @@
     "utility"
   ],
   "dependencies": {
-    "got": "^4.1.1",
-    "object-assign": "^4.0.1"
+    "got": "^4.2.0",
+    "object-assign": "^4.0.1",
+    "pinkie-promise": "^1.0.0"
   },
   "devDependencies": {
     "ava": "*",
