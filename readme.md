@@ -15,8 +15,8 @@ $ npm install --save gh-got
 Instead of:
 
 ```js
-var got = require('got');
-var token = 'foo';
+const got = require('got');
+const token = 'foo';
 
 got('https://api.github.com/users/sindresorhus', {
 	json: true,
@@ -24,21 +24,21 @@ got('https://api.github.com/users/sindresorhus', {
 		'accept': 'application/vnd.github.v3+json',
 		'authorization': 'token ' + token
 	}
-}).then(function (res) {
+}).then(res => {
 	console.log(res.body.login);
 	//=> 'sindresorhus'
-})
+});
 ```
 
 You can do:
 
 ```js
-var ghGot = require('gh-got');
+const ghGot = require('gh-got');
 
-ghGot('users/sindresorhus', {token: 'foo'}).then(function (res) {
+ghGot('users/sindresorhus', {token: 'foo'}).then(res => {
 	console.log(res.body.login);
 	//=> 'sindresorhus'
-})
+});
 ```
 
 

@@ -1,27 +1,20 @@
-'use strict';
-var test = require('ava');
-var ghGot = require('./');
+import test from 'ava';
+import fn from './';
 
-test('default', function (t) {
-	return ghGot('users/sindresorhus').then(function (res) {
-		t.is(res.body.login, 'sindresorhus');
-	});
+test('default', async t => {
+	t.is((await fn('users/sindresorhus')).body.login, 'sindresorhus');
 });
 
-test('should accept options', function (t) {
-	return ghGot('users/sindresorhus', {}).then(function (res) {
-		t.is(res.body.login, 'sindresorhus');
-	});
+test('should accept options', async t => {
+	t.is((await fn('users/sindresorhus', {})).body.login, 'sindresorhus');
 });
 
-test('token option', function (t) {
-	return ghGot('users/sindresorhus', {token: 'fail'}).catch(function (err) {
-		t.assert(err);
-	});
+test('token option', t => {
+	// TODO: use `t.throws` when it supports promises
+	return fn('users/sindresorhus', {token: 'fail'}).catch(err => t.ok(err));
 });
 
-test('endpoint option', function (t) {
-	return ghGot('users/sindresorhus', {endpoint: 'fail'}).catch(function (err) {
-		t.assert(err);
-	});
+test('endpoint option', t => {
+	// TODO: use `t.throws` when it supports promises
+	return fn('users/sindresorhus', {endpoint: 'fail'}).catch(err => t.ok(err));
 });
