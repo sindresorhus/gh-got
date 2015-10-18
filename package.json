@@ -33,7 +33,7 @@
     "utility"
   ],
   "dependencies": {
-    "got": "^4.2.0",
+    "got": "^5.0.0",
     "object-assign": "^4.0.1",
     "pinkie-promise": "^1.0.0"
   },
