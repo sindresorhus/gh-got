@@ -39,6 +39,7 @@
   },
   "devDependencies": {
     "ava": "*",
+    "get-stream": "^1.0.0",
     "xo": "*"
   },
   "xo": {
