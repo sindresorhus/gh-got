@@ -30,19 +30,35 @@ function ghGot(path, opts) {
 	var endpoint = env.GITHUB_ENDPOINT ? env.GITHUB_ENDPOINT.replace(/[^/]$/, '$&/') : opts.endpoint;
 	var url = (endpoint || 'https://api.github.com/') + path;
 
+	if (opts.stream) {
+		return got.stream(url, opts);
+	}
+
 	return got(url, opts);
 }
 
-[
+var helpers = [
 	'get',
 	'post',
 	'put',
 	'patch',
 	'head',
 	'delete'
-].forEach(function (el) {
+];
+
+helpers.forEach(function (el) {
 	ghGot[el] = function (url, opts) {
 		return ghGot(url, objectAssign({}, opts, {method: el.toUpperCase()}));
+	};
+});
+
+ghGot.stream = function (url, opts) {
+	return ghGot(url, objectAssign({}, opts, {json: false, stream: true}));
+};
+
+helpers.forEach(function (el) {
+	ghGot.stream[el] = function (url, opts) {
+		return ghGot.stream(url, objectAssign({}, opts, {method: el.toUpperCase()}));
 	};
 });
 
