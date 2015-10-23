@@ -44,7 +44,7 @@ ghGot('users/sindresorhus', {token: 'foo'}).then(res => {
 
 ## API
 
-Same as [`got`](https://github.com/sindresorhus/got), but with some additional options:
+Same as [`got`](https://github.com/sindresorhus/got) (including the stream API and aliases), but with some additional options:
 
 ### token
 
