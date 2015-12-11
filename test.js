@@ -10,6 +10,10 @@ test('default', async t => {
 	t.is((await fn('users/sindresorhus')).body.login, 'sindresorhus');
 });
 
+test('full path', async t => {
+	t.is((await fn('https://api.github.com/users/sindresorhus')).body.login, 'sindresorhus');
+});
+
 test('should accept options', async t => {
 	t.is((await fn('users/sindresorhus', {})).body.login, 'sindresorhus');
 });
