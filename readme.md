@@ -22,7 +22,7 @@ got('https://api.github.com/users/sindresorhus', {
 	json: true,
 	headers: {
 		'accept': 'application/vnd.github.v3+json',
-		'authorization': 'token ' + token
+		'authorization': `token ${token}`
 	}
 }).then(res => {
 	console.log(res.body.login);
@@ -67,7 +67,7 @@ Can be overridden globally with the `GITHUB_TOKEN` environment variable.
 
 ### endpoint
 
-Type: `string`  
+Type: `string`<br>
 Default: `https://api.github.com/`
 
 To support [GitHub Enterprise](https://enterprise.github.com).
@@ -77,4 +77,4 @@ Can be overridden globally with the `GITHUB_ENDPOINT` environment variable.
 
 ## License
 
-MIT © [Sindre Sorhus](http://sindresorhus.com)
+MIT © [Sindre Sorhus](https://sindresorhus.com)

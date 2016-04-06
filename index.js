@@ -1,25 +1,23 @@
 'use strict';
-var got = require('got');
-var objectAssign = require('object-assign');
-var Promise = require('pinkie-promise');
+const got = require('got');
 
 function ghGot(path, opts) {
 	if (typeof path !== 'string') {
-		return Promise.reject(new TypeError('Path should be a string'));
+		return Promise.reject(new TypeError(`Expected 'path' to be a string, got ${typeof path}`));
 	}
 
-	opts = objectAssign({json: true, endpoint: 'https://api.github.com/'}, opts);
+	opts = Object.assign({json: true, endpoint: 'https://api.github.com/'}, opts);
 
-	opts.headers = objectAssign({
+	opts.headers = Object.assign({
 		'accept': 'application/vnd.github.v3+json',
 		'user-agent': 'https://github.com/sindresorhus/gh-got'
 	}, opts.headers);
 
-	var env = process.env;
-	var token = env.GITHUB_TOKEN || opts.token;
+	const env = process.env;
+	const token = env.GITHUB_TOKEN || opts.token;
 
 	if (token) {
-		opts.headers.authorization = 'token ' + token;
+		opts.headers.authorization = `token ${token}`;
 	}
 
 	// https://developer.github.com/v3/#http-verbs
@@ -27,8 +25,8 @@ function ghGot(path, opts) {
 		opts.headers['content-length'] = 0;
 	}
 
-	var endpoint = env.GITHUB_ENDPOINT ? env.GITHUB_ENDPOINT.replace(/[^/]$/, '$&/') : opts.endpoint;
-	var url = /https?/.test(path) ? path : endpoint + path;
+	const endpoint = env.GITHUB_ENDPOINT ? env.GITHUB_ENDPOINT.replace(/[^/]$/, '$&/') : opts.endpoint;
+	const url = /https?/.test(path) ? path : endpoint + path;
 
 	if (opts.stream) {
 		return got.stream(url, opts);
@@ -37,7 +35,7 @@ function ghGot(path, opts) {
 	return got(url, opts);
 }
 
-var helpers = [
+const helpers = [
 	'get',
 	'post',
 	'put',
@@ -46,20 +44,12 @@ var helpers = [
 	'delete'
 ];
 
-helpers.forEach(function (el) {
-	ghGot[el] = function (url, opts) {
-		return ghGot(url, objectAssign({}, opts, {method: el.toUpperCase()}));
-	};
-});
+ghGot.stream = (url, opts) => ghGot(url, Object.assign({}, opts, {json: false, stream: true}));
 
-ghGot.stream = function (url, opts) {
-	return ghGot(url, objectAssign({}, opts, {json: false, stream: true}));
-};
-
-helpers.forEach(function (el) {
-	ghGot.stream[el] = function (url, opts) {
-		return ghGot.stream(url, objectAssign({}, opts, {method: el.toUpperCase()}));
-	};
-});
+for (const x of helpers) {
+	const method = x.toUpperCase();
+	ghGot[x] = (url, opts) => ghGot(url, Object.assign({}, opts, {method}));
+	ghGot.stream[x] = (url, opts) => ghGot.stream(url, Object.assign({}, opts, {method}));
+}
 
 module.exports = ghGot;
