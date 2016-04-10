@@ -16,14 +16,26 @@ test('accepts options', async t => {
 	t.is((await m('users/sindresorhus', {})).body.login, 'sindresorhus');
 });
 
-test.serial('token option', async t => {
+test.serial('global token option', async t => {
 	process.env.GITHUB_TOKEN = 'fail';
 	await t.throws(m('users/sindresorhus'), 'Response code 401 (Unauthorized)');
 	process.env.GITHUB_TOKEN = token;
 });
 
-test('endpoint option', async t => {
+test('token option', t => {
+	t.throws(m('users/sindresorhus', {token: 'fail'}), 'Response code 401 (Unauthorized)');
+});
+
+test.serial('global endpoint option', async t => {
+	process.env.GITHUB_ENDPOINT = 'fail';
+	await t.throws(m('users/sindresorhus', {retries: 1}), /ENOTFOUND/);
+	delete process.env.GITHUB_ENDPOINT;
+});
+
+test.serial('endpoint option', async t => {
+	process.env.GITHUB_ENDPOINT = 'https://api.github.com/';
 	await t.throws(m('users/sindresorhus', {endpoint: 'fail', retries: 1}), /ENOTFOUND/);
+	delete process.env.GITHUB_ENDPOINT;
 });
 
 test('stream interface', async t => {
