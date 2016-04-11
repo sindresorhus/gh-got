@@ -6,18 +6,21 @@ function ghGot(path, opts) {
 		return Promise.reject(new TypeError(`Expected 'path' to be a string, got ${typeof path}`));
 	}
 
-	opts = Object.assign({json: true, endpoint: 'https://api.github.com/'}, opts);
+	const env = process.env;
+
+	opts = Object.assign({
+		json: true,
+		token: env.GITHUB_TOKEN,
+		endpoint: env.GITHUB_ENDPOINT ? env.GITHUB_ENDPOINT.replace(/[^/]$/, '$&/') : 'https://api.github.com/'
+	}, opts);
 
 	opts.headers = Object.assign({
 		'accept': 'application/vnd.github.v3+json',
 		'user-agent': 'https://github.com/sindresorhus/gh-got'
 	}, opts.headers);
 
-	const env = process.env;
-	const token = env.GITHUB_TOKEN || opts.token;
-
-	if (token) {
-		opts.headers.authorization = `token ${token}`;
+	if (opts.token) {
+		opts.headers.authorization = `token ${opts.token}`;
 	}
 
 	// https://developer.github.com/v3/#http-verbs
@@ -25,8 +28,7 @@ function ghGot(path, opts) {
 		opts.headers['content-length'] = 0;
 	}
 
-	const endpoint = env.GITHUB_ENDPOINT ? env.GITHUB_ENDPOINT.replace(/[^/]$/, '$&/') : opts.endpoint;
-	const url = /https?/.test(path) ? path : endpoint + path;
+	const url = /https?/.test(path) ? path : opts.endpoint + path;
 
 	if (opts.stream) {
 		return got.stream(url, opts);

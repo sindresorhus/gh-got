@@ -63,7 +63,7 @@ Type: `string`
 
 GitHub [access token](https://github.com/settings/tokens/new).
 
-Can be overridden globally with the `GITHUB_TOKEN` environment variable.
+Can be set globally with the `GITHUB_TOKEN` environment variable.
 
 ### endpoint
 
@@ -72,7 +72,7 @@ Default: `https://api.github.com/`
 
 To support [GitHub Enterprise](https://enterprise.github.com).
 
-Can be overridden globally with the `GITHUB_ENDPOINT` environment variable.
+Can be set globally with the `GITHUB_ENDPOINT` environment variable.
 
 
 ## License
