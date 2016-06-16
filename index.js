@@ -46,7 +46,10 @@ const helpers = [
 	'delete'
 ];
 
-ghGot.stream = (url, opts) => ghGot(url, Object.assign({}, opts, {json: false, stream: true}));
+ghGot.stream = (url, opts) => ghGot(url, Object.assign({}, opts, {
+	json: false,
+	stream: true
+}));
 
 for (const x of helpers) {
 	const method = x.toUpperCase();

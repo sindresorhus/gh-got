@@ -34,7 +34,10 @@ test.serial('global endpoint option', async t => {
 
 test.serial('endpoint option', async t => {
 	process.env.GITHUB_ENDPOINT = 'https://api.github.com/';
-	await t.throws(m('users/sindresorhus', {endpoint: 'fail', retries: 1}), /ENOTFOUND/);
+	await t.throws(m('users/sindresorhus', {
+		endpoint: 'fail',
+		retries: 1
+	}), /ENOTFOUND/);
 	delete process.env.GITHUB_ENDPOINT;
 });
 
