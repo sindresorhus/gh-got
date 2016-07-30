@@ -28,7 +28,7 @@ function ghGot(path, opts) {
 		opts.headers['content-length'] = 0;
 	}
 
-	const url = /https?/.test(path) ? path : opts.endpoint + path;
+	const url = /^https?/.test(path) ? path : opts.endpoint + path;
 
 	if (opts.stream) {
 		return got.stream(url, opts);
