@@ -1,5 +1,6 @@
 'use strict';
 const got = require('got');
+const isPlainObj = require('is-plain-obj');
 
 function ghGot(path, opts) {
 	if (typeof path !== 'string') {
@@ -26,6 +27,11 @@ function ghGot(path, opts) {
 	// https://developer.github.com/v3/#http-verbs
 	if (opts.method && opts.method.toLowerCase() === 'put' && !opts.body) {
 		opts.headers['content-length'] = 0;
+	}
+
+	if (isPlainObj(opts.body)) {
+		opts.headers['content-type'] = 'application/json';
+		opts.body = JSON.stringify(opts.body);
 	}
 
 	const url = /^https?/.test(path) ? path : opts.endpoint + path;

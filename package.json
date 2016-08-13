@@ -33,11 +33,13 @@
     "utility"
   ],
   "dependencies": {
-    "got": "^6.2.0"
+    "got": "^6.2.0",
+    "is-plain-obj": "^1.1.0"
   },
   "devDependencies": {
     "ava": "*",
     "get-stream": "^2.0.0",
+    "nock": "^8.0.0",
     "xo": "*"
   },
   "xo": {

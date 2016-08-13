@@ -74,6 +74,12 @@ To support [GitHub Enterprise](https://enterprise.github.com).
 
 Can be set globally with the `GITHUB_ENDPOINT` environment variable.
 
+### body
+
+Type: `object`
+
+The body can be specified as a plain object and will be serialized as JSON with the appropriate headers set.
+
 
 ## License
 
