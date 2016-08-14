@@ -76,9 +76,9 @@ Can be set globally with the `GITHUB_ENDPOINT` environment variable.
 
 ### body
 
-Type: `object`
+Type: `Object`
 
-The body can be specified as a plain object and will be serialized as JSON with the appropriate headers set.
+Can be specified as a plain object and will be serialized as JSON with the appropriate headers set.
 
 
 ## License

@@ -29,6 +29,8 @@ function ghGot(path, opts) {
 		opts.headers['content-length'] = 0;
 	}
 
+	// TODO: remove this when Got eventually supports it
+	// https://github.com/sindresorhus/got/issues/174
 	if (isPlainObj(opts.body)) {
 		opts.headers['content-type'] = 'application/json';
 		opts.body = JSON.stringify(opts.body);
