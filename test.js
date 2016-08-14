@@ -1,4 +1,5 @@
 import test from 'ava';
+import nock from 'nock';
 import getStream from 'get-stream';
 import m from './';
 
@@ -44,4 +45,15 @@ test.serial('endpoint option', async t => {
 test('stream interface', async t => {
 	t.is(JSON.parse(await getStream(m.stream('users/sindresorhus'))).login, 'sindresorhus');
 	t.is(JSON.parse(await getStream(m.stream.get('users/sindresorhus'))).login, 'sindresorhus');
+});
+
+test('json body', async t => {
+	const endpoint = 'http://mock-endpoint';
+	const body = {test: [1, 3, 3, 7]};
+	const reply = {ok: true};
+
+	const scope = nock(endpoint).post('/test', body).reply(200, reply);
+
+	t.deepEqual((await m('/test', {endpoint, body})).body, reply);
+	t.truthy(scope.isDone());
 });
