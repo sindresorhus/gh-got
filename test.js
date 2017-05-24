@@ -23,8 +23,8 @@ test.serial('global token option', async t => {
 	process.env.GITHUB_TOKEN = token;
 });
 
-test('token option', t => {
-	t.throws(m('users/sindresorhus', {token: 'fail'}), 'Bad credentials (401)');
+test('token option', async t => {
+	await t.throws(m('users/sindresorhus', {token: 'fail'}), 'Bad credentials (401)');
 });
 
 test.serial('global endpoint option', async t => {
