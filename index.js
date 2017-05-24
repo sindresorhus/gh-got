@@ -16,7 +16,7 @@ function ghGot(path, opts) {
 	}, opts);
 
 	opts.headers = Object.assign({
-		'accept': 'application/vnd.github.v3+json',
+		accept: 'application/vnd.github.v3+json',
 		'user-agent': 'https://github.com/sindresorhus/gh-got'
 	}, opts.headers);
 
@@ -42,7 +42,14 @@ function ghGot(path, opts) {
 		return got.stream(url, opts);
 	}
 
-	return got(url, opts);
+	return got(url, opts).catch(err => {
+		if (err.response && isPlainObj(err.response.body)) {
+			err.name = 'GithubError';
+			err.message = `${err.response.body.message} (${err.statusCode})`;
+		}
+
+		throw err;
+	});
 }
 
 const helpers = [

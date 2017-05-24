@@ -19,12 +19,12 @@ test('accepts options', async t => {
 
 test.serial('global token option', async t => {
 	process.env.GITHUB_TOKEN = 'fail';
-	await t.throws(m('users/sindresorhus'), 'Response code 401 (Unauthorized)');
+	await t.throws(m('users/sindresorhus'), 'Bad credentials (401)');
 	process.env.GITHUB_TOKEN = token;
 });
 
-test('token option', t => {
-	t.throws(m('users/sindresorhus', {token: 'fail'}), 'Response code 401 (Unauthorized)');
+test('token option', async t => {
+	await t.throws(m('users/sindresorhus', {token: 'fail'}), 'Bad credentials (401)');
 });
 
 test.serial('global endpoint option', async t => {
@@ -56,4 +56,10 @@ test('json body', async t => {
 
 	t.deepEqual((await m('/test', {endpoint, body})).body, reply);
 	t.truthy(scope.isDone());
+});
+
+test('custom error', async t => {
+	const err = await t.throws(m('users/sindresorhus', {token: 'fail'}));
+	t.is(err.name, 'GithubError');
+	t.is(err.message, 'Bad credentials (401)');
 });
