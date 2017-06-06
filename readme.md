@@ -61,7 +61,7 @@ Errors are improved by using the custom GitHub error messages. Doesn't apply to 
 
 ### token
 
-Type: `string`
+Type: `object`
 
 GitHub [access token](https://github.com/settings/tokens/new).
 
