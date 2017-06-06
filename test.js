@@ -1,7 +1,7 @@
 import test from 'ava';
 import nock from 'nock';
 import getStream from 'get-stream';
-import m from './';
+import m from '.';
 
 const token = process.env.GITHUB_TOKEN;
 
@@ -60,6 +60,6 @@ test('json body', async t => {
 
 test('custom error', async t => {
 	const err = await t.throws(m('users/sindresorhus', {token: 'fail'}));
-	t.is(err.name, 'GithubError');
+	t.is(err.name, 'GitHubError');
 	t.is(err.message, 'Bad credentials (401)');
 });

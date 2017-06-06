@@ -33,7 +33,7 @@
     "utility"
   ],
   "dependencies": {
-    "got": "^6.2.0",
+    "got": "^7.0.0",
     "is-plain-obj": "^1.1.0"
   },
   "devDependencies": {
