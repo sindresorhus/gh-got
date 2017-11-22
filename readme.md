@@ -6,7 +6,7 @@
 ## Install
 
 ```
-$ npm install --save gh-got
+$ npm install gh-got
 ```
 
 
