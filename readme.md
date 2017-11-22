@@ -18,16 +18,18 @@ Instead of:
 const got = require('got');
 const token = 'foo';
 
-got('https://api.github.com/users/sindresorhus', {
-	json: true,
-	headers: {
-		'accept': 'application/vnd.github.v3+json',
-		'authorization': `token ${token}`
-	}
-}).then(res => {
-	console.log(res.body.login);
+(async () => {
+	const {body} = await got('https://api.github.com/users/sindresorhus', {
+		json: true,
+		headers: {
+			'accept': 'application/vnd.github.v3+json',
+			'authorization': `token ${token}`
+		}
+	});
+
+	console.log(body.login);
 	//=> 'sindresorhus'
-});
+})();
 ```
 
 You can do:
@@ -35,10 +37,12 @@ You can do:
 ```js
 const ghGot = require('gh-got');
 
-ghGot('users/sindresorhus', {token: 'foo'}).then(res => {
-	console.log(res.body.login);
+(async () => {
+	const {body} = await ghGot('users/sindresorhus', {token: 'foo'});
+
+	console.log(body.login);
 	//=> 'sindresorhus'
-});
+})();
 ```
 
 Or:
@@ -46,10 +50,12 @@ Or:
 ```js
 const ghGot = require('gh-got');
 
-ghGot('https://api.github.com/users/sindresorhus', {token: 'foo'}).then(res => {
-	console.log(res.body.login);
+(async () => {
+	const {body} = await ghGot('https://api.github.com/users/sindresorhus', {token: 'foo'});
+
+	console.log(body.login);
 	//=> 'sindresorhus'
-});
+})();
 ```
 
 
