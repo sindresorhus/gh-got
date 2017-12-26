@@ -1,5 +1,6 @@
 'use strict';
 const got = require('got');
+const caw = require('caw');
 const isPlainObj = require('is-plain-obj');
 
 function ghGot(path, opts) {
@@ -10,6 +11,7 @@ function ghGot(path, opts) {
 	const env = process.env;
 
 	opts = Object.assign({
+		agent: caw(),
 		json: true,
 		token: env.GITHUB_TOKEN,
 		endpoint: env.GITHUB_ENDPOINT ? env.GITHUB_ENDPOINT.replace(/[^/]$/, '$&/') : 'https://api.github.com/'
