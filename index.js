@@ -2,67 +2,37 @@
 const got = require('got');
 const isPlainObj = require('is-plain-obj');
 
-function ghGot(path, opts) {
-	if (typeof path !== 'string') {
-		return Promise.reject(new TypeError(`Expected \`path\` to be a string, got ${typeof path}`));
-	}
-
-	const env = process.env;
-
-	opts = Object.assign({
+module.exports = got.create({
+	options: got.mergeOptions(got.defaults.options, {
 		json: true,
-		token: env.GITHUB_TOKEN,
-		endpoint: env.GITHUB_ENDPOINT ? env.GITHUB_ENDPOINT.replace(/[^/]$/, '$&/') : 'https://api.github.com/'
-	}, opts);
-
-	opts.headers = Object.assign({
-		accept: 'application/vnd.github.v3+json',
-		'user-agent': 'https://github.com/sindresorhus/gh-got'
-	}, opts.headers);
-
-	if (opts.token) {
-		opts.headers.authorization = `token ${opts.token}`;
-	}
-
-	// https://developer.github.com/v3/#http-verbs
-	if (opts.method && opts.method.toLowerCase() === 'put' && !opts.body) {
-		opts.headers['content-length'] = 0;
-	}
-
-	const url = /^https?/.test(path) ? path : opts.endpoint + path;
-
-	if (opts.stream) {
-		return got.stream(url, opts);
-	}
-
-	return got(url, opts).catch(err => {
-		if (err.response && isPlainObj(err.response.body)) {
-			err.name = 'GitHubError';
-			err.message = `${err.response.body.message} (${err.statusCode})`;
+		token: process.env.GITHUB_TOKEN,
+		baseUrl: process.env.GITHUB_ENDPOINT ? process.env.GITHUB_ENDPOINT.replace(/[^/]$/, '$&/') : 'https://api.github.com/',
+		headers: {
+			accept: 'application/vnd.github.v3+json',
+			'user-agent': 'https://github.com/sindresorhus/gh-got'
+		}
+	}),
+	methods: got.defaults.methods,
+	handler: (options, next) => {
+		if (options.token) {
+			options.headers.authorization = `token ${options.token}`;
 		}
 
-		throw err;
-	});
-}
+		if (options.method && options.method.toLowerCase() === 'put' && !options.body) {
+			options.headers['content-length'] = 0;
+		}
 
-const helpers = [
-	'get',
-	'post',
-	'put',
-	'patch',
-	'head',
-	'delete'
-];
+		if (options.stream) {
+			return next(options);
+		}
 
-ghGot.stream = (url, opts) => ghGot(url, Object.assign({}, opts, {
-	json: false,
-	stream: true
-}));
+		return next(options).catch(err => {
+			if (err.response && isPlainObj(err.response.body)) {
+				err.name = 'GitHubError';
+				err.message = `${err.response.body.message} (${err.statusCode})`;
+			}
 
-for (const x of helpers) {
-	const method = x.toUpperCase();
-	ghGot[x] = (url, opts) => ghGot(url, Object.assign({}, opts, {method}));
-	ghGot.stream[x] = (url, opts) => ghGot.stream(url, Object.assign({}, opts, {method}));
-}
-
-module.exports = ghGot;
+			throw err;
+		});
+	}
+});
