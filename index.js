@@ -2,7 +2,7 @@
 const got = require('got');
 const isPlainObj = require('is-plain-obj');
 
-module.exports = got.create({
+const create = () => got.create({
 	options: got.mergeOptions(got.defaults.options, {
 		json: true,
 		token: process.env.GITHUB_TOKEN,
@@ -18,7 +18,7 @@ module.exports = got.create({
 			options.headers.authorization = `token ${options.token}`;
 		}
 
-		if (options.method && options.method.toLowerCase() === 'put' && !options.body) {
+		if (options.method && options.method === 'PUT' && !options.body) {
 			options.headers['content-length'] = 0;
 		}
 
@@ -36,3 +36,6 @@ module.exports = got.create({
 		});
 	}
 });
+
+module.exports = create();
+module.exports.recreate = create;

@@ -17,9 +17,9 @@ test('accepts options', async t => {
 	t.is((await m('users/sindresorhus', {})).body.login, 'sindresorhus');
 });
 
-test.serial.failing('global token option', async t => {
+test.serial('global token option', async t => {
 	process.env.GITHUB_TOKEN = 'fail';
-	await t.throws(m('users/sindresorhus'), 'Bad credentials (401)');
+	await t.throws(m.recreate()('users/sindresorhus'), 'Bad credentials (401)');
 	process.env.GITHUB_TOKEN = token;
 });
 
@@ -27,19 +27,35 @@ test('token option', async t => {
 	await t.throws(m('users/sindresorhus', {token: 'fail'}), 'Bad credentials (401)');
 });
 
-test.serial.failing('global endpoint option', async t => {
+test.serial('global endpoint option', async t => {
 	process.env.GITHUB_ENDPOINT = 'fail';
-	await t.throws(m('users/sindresorhus', {retries: 1}), /ENOTFOUND/);
+	const promise = m.recreate()('users/sindresorhus', {retries: 1}).catch(e => {
+		if (e.code === 'ERR_INVALID_URL') {
+			t.pass();
+			return;
+		}
+
+		t.fail();
+	});
 	delete process.env.GITHUB_ENDPOINT;
+	await promise;
 });
 
-test.serial.failing('endpoint option', async t => {
+test.serial('endpoint option', async t => {
 	process.env.GITHUB_ENDPOINT = 'https://api.github.com/';
-	await t.throws(m('users/sindresorhus', {
+	const promise = m.recreate()('users/sindresorhus', {
 		baseUrl: 'fail',
 		retries: 1
-	}), /ENOTFOUND/);
+	}).catch(e => {
+		if (e.code === 'ERR_INVALID_URL') {
+			t.pass();
+			return;
+		}
+
+		t.fail();
+	});
 	delete process.env.GITHUB_ENDPOINT;
+	await promise;
 });
 
 test('stream interface', async t => {
