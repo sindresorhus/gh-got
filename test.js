@@ -27,7 +27,7 @@ test('token option', async t => {
 	await t.throws(m('users/sindresorhus', {token: 'fail'}), 'Bad credentials (401)');
 });
 
-test.serial.only('global endpoint option', async t => {
+test.serial('global endpoint option', async t => {
 	process.env.GITHUB_ENDPOINT = 'fail';
 	await t.throws(m.recreate()('users/sindresorhus', {retries: 1}), 'Invalid URL: fail/');
 	delete process.env.GITHUB_ENDPOINT;
