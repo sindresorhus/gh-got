@@ -73,7 +73,7 @@ GitHub [access token](https://github.com/settings/tokens/new).
 
 Can be set globally with the `GITHUB_TOKEN` environment variable.
 
-### endpoint
+### baseUrl
 
 Type: `string`<br>
 Default: `https://api.github.com/`
