@@ -38,4 +38,7 @@ const create = () => got.create({
 });
 
 module.exports = create();
-module.exports.recreate = create;
+
+if (process.env.NODE_ENV === 'test') {
+	module.exports.recreate = create;
+}
