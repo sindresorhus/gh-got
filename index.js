@@ -12,7 +12,7 @@ function ghGot(path, opts) {
 	opts = Object.assign({
 		json: true,
 		token: env.GITHUB_TOKEN,
-		endpoint: env.GITHUB_ENDPOINT ? env.GITHUB_ENDPOINT.replace(/[^/]$/, '$&/') : 'https://api.github.com/'
+		endpoint: env.GITHUB_ENDPOINT ? env.GITHUB_ENDPOINT : 'https://api.github.com/'
 	}, opts);
 
 	opts.headers = Object.assign({
@@ -29,7 +29,7 @@ function ghGot(path, opts) {
 		opts.headers['content-length'] = 0;
 	}
 
-	const url = /^https?/.test(path) ? path : opts.endpoint + path;
+	const url = /^https?/.test(path) ? path : opts.endpoint.replace(/\/$/, '') + '/' + path.replace(/^\//, '');
 
 	if (opts.stream) {
 		return got.stream(url, opts);
