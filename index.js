@@ -1,12 +1,11 @@
 'use strict';
 const got = require('got');
-const isPlainObj = require('is-plain-obj');
 
 const create = () => got.create({
 	options: got.mergeOptions(got.defaults.options, {
 		json: true,
 		token: process.env.GITHUB_TOKEN,
-		baseUrl: process.env.GITHUB_ENDPOINT ? process.env.GITHUB_ENDPOINT.replace(/[^/]$/, '$&/') : 'https://api.github.com/',
+		baseUrl: process.env.GITHUB_ENDPOINT || 'https://api.github.com',
 		headers: {
 			accept: 'application/vnd.github.v3+json',
 			'user-agent': 'https://github.com/sindresorhus/gh-got'
@@ -27,7 +26,7 @@ const create = () => got.create({
 		}
 
 		return next(options).catch(err => {
-			if (err.response && isPlainObj(err.response.body)) {
+			if (err.response && err.response.body) {
 				err.name = 'GitHubError';
 				err.message = `${err.response.body.message} (${err.statusCode})`;
 			}
