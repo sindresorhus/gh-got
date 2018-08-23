@@ -27,26 +27,26 @@ test('dedupes slashes', async t => {
 
 test.serial('global token option', async t => {
 	process.env.GITHUB_TOKEN = 'fail';
-	await t.throws(m('users/sindresorhus'), 'Bad credentials (401)');
+	await t.throwsAsync(m.recreate()('users/sindresorhus'), 'Bad credentials (401)');
 	process.env.GITHUB_TOKEN = token;
 });
 
 test('token option', async t => {
-	await t.throws(m('users/sindresorhus', {token: 'fail'}), 'Bad credentials (401)');
+	await t.throwsAsync(m('users/sindresorhus', {token: 'fail'}), 'Bad credentials (401)');
 });
 
 test.serial('global endpoint option', async t => {
 	process.env.GITHUB_ENDPOINT = 'fail';
-	await t.throws(m('users/sindresorhus', {retries: 1}), /ENOTFOUND/);
+	await t.throwsAsync(m.recreate()('users/sindresorhus', {retries: 1}), 'Invalid URL: fail/');
 	delete process.env.GITHUB_ENDPOINT;
 });
 
 test.serial('endpoint option', async t => {
 	process.env.GITHUB_ENDPOINT = 'https://api.github.com/';
-	await t.throws(m('users/sindresorhus', {
-		endpoint: 'fail',
+	await t.throwsAsync(m.recreate()('users/sindresorhus', {
+		baseUrl: 'fail',
 		retries: 1
-	}), /ENOTFOUND/);
+	}), 'Invalid URL: fail/');
 	delete process.env.GITHUB_ENDPOINT;
 });
 
@@ -56,18 +56,18 @@ test('stream interface', async t => {
 });
 
 test('json body', async t => {
-	const endpoint = 'http://mock-endpoint';
+	const baseUrl = 'http://mock-endpoint';
 	const body = {test: [1, 3, 3, 7]};
 	const reply = {ok: true};
 
-	const scope = nock(endpoint).post('/test', body).reply(200, reply);
+	const scope = nock(baseUrl).post('/test', body).reply(200, reply);
 
-	t.deepEqual((await m('/test', {endpoint, body})).body, reply);
+	t.deepEqual((await m('/test', {baseUrl, body})).body, reply);
 	t.truthy(scope.isDone());
 });
 
 test('custom error', async t => {
-	const err = await t.throws(m('users/sindresorhus', {token: 'fail'}));
+	const err = await t.throwsAsync(m('users/sindresorhus', {token: 'fail'}));
 	t.is(err.name, 'GitHubError');
 	t.is(err.message, 'Bad credentials (401)');
 });

@@ -1,68 +1,43 @@
 'use strict';
 const got = require('got');
-const isPlainObj = require('is-plain-obj');
 
-function ghGot(path, opts) {
-	if (typeof path !== 'string') {
-		return Promise.reject(new TypeError(`Expected \`path\` to be a string, got ${typeof path}`));
-	}
-
-	const env = process.env;
-
-	opts = Object.assign({
+const create = () => got.create({
+	options: got.mergeOptions(got.defaults.options, {
 		json: true,
-		token: env.GITHUB_TOKEN,
-		endpoint: env.GITHUB_ENDPOINT ? env.GITHUB_ENDPOINT : 'https://api.github.com/'
-	}, opts);
-
-	opts.headers = Object.assign({
-		accept: 'application/vnd.github.v3+json',
-		'user-agent': 'https://github.com/sindresorhus/gh-got'
-	}, opts.headers);
-
-	if (opts.token) {
-		opts.headers.authorization = `token ${opts.token}`;
-	}
-
-	// https://developer.github.com/v3/#http-verbs
-	if (opts.method && opts.method.toLowerCase() === 'put' && !opts.body) {
-		opts.headers['content-length'] = 0;
-	}
-
-	const url = /^https?/.test(path) ? path : opts.endpoint.replace(/\/$/, '') + '/' + path.replace(/^\//, '');
-
-	if (opts.stream) {
-		return got.stream(url, opts);
-	}
-
-	return got(url, opts).catch(err => {
-		if (err.response && isPlainObj(err.response.body)) {
-			err.name = 'GitHubError';
-			err.message = `${err.response.body.message} (${err.statusCode})`;
+		token: process.env.GITHUB_TOKEN,
+		baseUrl: process.env.GITHUB_ENDPOINT || 'https://api.github.com',
+		headers: {
+			accept: 'application/vnd.github.v3+json',
+			'user-agent': 'https://github.com/sindresorhus/gh-got'
+		}
+	}),
+	methods: got.defaults.methods,
+	handler: (options, next) => {
+		if (options.token) {
+			options.headers.authorization = `token ${options.token}`;
 		}
 
-		throw err;
-	});
+		if (options.method && options.method === 'PUT' && !options.body) {
+			options.headers['content-length'] = 0;
+		}
+
+		if (options.stream) {
+			return next(options);
+		}
+
+		return next(options).catch(err => {
+			if (err.response && err.response.body) {
+				err.name = 'GitHubError';
+				err.message = `${err.response.body.message} (${err.statusCode})`;
+			}
+
+			throw err;
+		});
+	}
+});
+
+module.exports = create();
+
+if (process.env.NODE_ENV === 'test') {
+	module.exports.recreate = create;
 }
-
-const helpers = [
-	'get',
-	'post',
-	'put',
-	'patch',
-	'head',
-	'delete'
-];
-
-ghGot.stream = (url, opts) => ghGot(url, Object.assign({}, opts, {
-	json: false,
-	stream: true
-}));
-
-for (const x of helpers) {
-	const method = x.toUpperCase();
-	ghGot[x] = (url, opts) => ghGot(url, Object.assign({}, opts, {method}));
-	ghGot.stream[x] = (url, opts) => ghGot.stream(url, Object.assign({}, opts, {method}));
-}
-
-module.exports = ghGot;
