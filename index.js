@@ -7,7 +7,7 @@ function ghGot(path, opts) {
 		return Promise.reject(new TypeError(`Expected \`path\` to be a string, got ${typeof path}`));
 	}
 
-	const {env} = process;
+	const env = process.env;
 
 	opts = Object.assign({
 		json: true,
