@@ -46,7 +46,7 @@ test.serial('endpoint option', async t => {
 	await t.throwsAsync(m.recreate()('users/sindresorhus', {
 		baseUrl: 'fail',
 		retries: 1
-	}), 'Invalid URL: fail');
+	}), 'Invalid URL: fail/');
 	delete process.env.GITHUB_ENDPOINT;
 });
 
