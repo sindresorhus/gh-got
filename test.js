@@ -17,6 +17,14 @@ test('accepts options', async t => {
 	t.is((await m('users/sindresorhus', {})).body.login, 'sindresorhus');
 });
 
+test('accepts options.endpoint without trailing slash', async t => {
+	t.is((await m('users/sindresorhus', {endpoint: 'https://api.github.com'})).body.login, 'sindresorhus');
+});
+
+test('dedupes slashes', async t => {
+	t.is((await m('/users/sindresorhus', {endpoint: 'https://api.github.com/'})).body.login, 'sindresorhus');
+});
+
 test.serial('global token option', async t => {
 	process.env.GITHUB_TOKEN = 'fail';
 	await t.throws(m('users/sindresorhus'), 'Bad credentials (401)');
