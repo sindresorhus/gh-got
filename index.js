@@ -14,7 +14,7 @@ const create = () => got.create({
 	methods: got.defaults.methods,
 	handler: (options, next) => {
 		if (options.token) {
-			options.headers.authorization = `token ${options.token}`;
+			options.headers.authorization = options.headers.authorization || `token ${options.token}`;
 		}
 
 		if (options.method && options.method === 'PUT' && !options.body) {
