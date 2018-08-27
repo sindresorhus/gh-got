@@ -93,8 +93,8 @@ Can be specified as a plain object and will be serialized as JSON with the appro
 Authorization for GitHub uses the following logic:
 
 1. If `options.headers.authorization` is passed to `gh-got`, then this will be used as first preference
-2. If `options.token` is set then the `Authorization` header will be set to `token <options.token>`
-3. If `options.headers.authorization` and `options.token` are not set, then the `Authorization` header will be set to `token <process.env.GITHUB_TOKEN>`
+2. If `options.token` is provided then the `Authorization` header will be set to `token <options.token>`
+3. If `options.headers.authorization` and `options.token` are not provided, then the `Authorization` header will be set to `token <process.env.GITHUB_TOKEN>`
 
 In most cases this means you can simply set `GITHUB_TOKEN`, but it also allows it to be overridden by setting `options.token` or `options.headers.authorization` explicitly. For example, if [authenticating as a GitHub App](https://developer.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app), you could do the following:
 
