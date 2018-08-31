@@ -17,10 +17,6 @@ const create = () => got.create({
 			options.headers.authorization = options.headers.authorization || `token ${options.token}`;
 		}
 
-		if (options.method && options.method === 'PUT' && !options.body) {
-			options.headers['content-length'] = 0;
-		}
-
 		if (options.stream) {
 			return next(options);
 		}
