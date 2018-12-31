@@ -11,7 +11,9 @@ const create = () => got.create({
 			'user-agent': 'https://github.com/sindresorhus/gh-got'
 		}
 	}),
+
 	methods: got.defaults.methods,
+
 	handler: (options, next) => {
 		if (options.token) {
 			options.headers.authorization = options.headers.authorization || `token ${options.token}`;
@@ -21,13 +23,13 @@ const create = () => got.create({
 			return next(options);
 		}
 
-		return next(options).catch(err => {
-			if (err.response && err.response.body) {
-				err.name = 'GitHubError';
-				err.message = `${err.response.body.message} (${err.statusCode})`;
+		return next(options).catch(error => {
+			if (error.response && error.response.body) {
+				error.name = 'GitHubError';
+				error.message = `${error.response.body.message} (${error.statusCode})`;
 			}
 
-			throw err;
+			throw error;
 		});
 	}
 });

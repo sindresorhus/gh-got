@@ -33,12 +33,12 @@
 		"utility"
 	],
 	"dependencies": {
-		"got": "^9.2.0"
+		"got": "^9.5.0"
 	},
 	"devDependencies": {
-		"ava": "^1.0.0-beta.7",
-		"get-stream": "^4.0.0",
-		"nock": "^9.1.0",
-		"xo": "*"
+		"ava": "^1.0.1",
+		"get-stream": "^4.1.0",
+		"nock": "^10.0.5",
+		"xo": "^0.23.0"
 	}
 }

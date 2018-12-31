@@ -61,11 +61,13 @@ const ghGot = require('gh-got');
 
 ## API
 
-Same as [`got`](https://github.com/sindresorhus/got) (including the stream API and aliases), but with some additional options below.
+Same API as [`got`](https://github.com/sindresorhus/got), including the stream API and aliases, but with some additional options below.
 
 Errors are improved by using the custom GitHub error messages. Doesn't apply to the stream API.
 
-### token
+### `gh-got` specific options
+
+#### token
 
 Type: `string`
 
@@ -73,7 +75,7 @@ GitHub [access token](https://github.com/settings/tokens/new).
 
 Can be set globally with the `GITHUB_TOKEN` environment variable.
 
-### baseUrl
+#### baseUrl
 
 Type: `string`<br>
 Default: `https://api.github.com/`
@@ -82,7 +84,7 @@ To support [GitHub Enterprise](https://enterprise.github.com).
 
 Can be set globally with the `GITHUB_ENDPOINT` environment variable.
 
-### body
+#### body
 
 Type: `Object`
 
