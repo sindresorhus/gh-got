@@ -72,3 +72,17 @@ test('custom error', async t => {
 		message: 'Bad credentials (401)'
 	});
 });
+
+test('.rateLimit response property', async t => {
+	const {rateLimit} = await ghGot('users/sindresorhus');
+	t.is(typeof rateLimit.limit, 'number');
+	t.is(typeof rateLimit.remaining, 'number');
+	t.true(rateLimit.reset instanceof Date);
+});
+
+test('.rateLimit error property', async t => {
+	const {rateLimit} = await t.throwsAsync(ghGot('users/sindresorhus', {token: 'fail'}));
+	t.is(typeof rateLimit.limit, 'number');
+	t.is(typeof rateLimit.remaining, 'number');
+	t.true(rateLimit.reset instanceof Date);
+});
