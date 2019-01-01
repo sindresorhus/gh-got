@@ -91,6 +91,22 @@ Type: `Object`
 Can be specified as a plain object and will be serialized as JSON with the appropriate headers set.
 
 
+## Rate limit
+
+Responses and errors have a `.rateLimit` property with info about the current [rate limit](https://developer.github.com/v3/#rate-limiting). *(This is not yet implemented for the stream API)*
+
+```js
+const ghGot = require('gh-got');
+
+(async () => {
+	const {rateLimit} = await ghGot('users/sindresorhus');
+
+	console.log(rateLimit);
+	//=> {limit: 5000, remaining: 4899, reset: [Date 2018-12-31T20:45:20.000Z]}
+})();
+```
+
+
 ## Authorization
 
 Authorization for GitHub uses the following logic:
