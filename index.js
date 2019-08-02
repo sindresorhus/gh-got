@@ -13,7 +13,7 @@ const create = () => got.create({
 		token: process.env.GITHUB_TOKEN,
 		baseUrl: process.env.GITHUB_ENDPOINT || 'https://api.github.com',
 		headers: {
-			accept: 'application/vnd.github.v3+json',
+			accept: 'application/vnd.github.symmetra-preview+json',
 			'user-agent': 'https://github.com/sindresorhus/gh-got'
 		}
 	}),
