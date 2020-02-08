@@ -71,7 +71,7 @@ test('json body', async t => {
 
 	const scope = nock(prefixUrl).post('/test', body).reply(200, reply);
 
-	t.deepEqual((await ghGot.post('/test', {prefixUrl, body})).body, reply);
+	t.deepEqual((await ghGot.post('test', {prefixUrl, body})).body, reply);
 	t.truthy(scope.isDone());
 });
 
