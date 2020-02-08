@@ -7,7 +7,7 @@
 	"author": {
 		"name": "Sindre Sorhus",
 		"email": "sindresorhus@gmail.com",
-		"url": "sindresorhus.com"
+		"url": "https://sindresorhus.com"
 	},
 	"engines": {
 		"node": ">=8"
@@ -33,12 +33,12 @@
 		"utility"
 	],
 	"dependencies": {
-		"got": "^9.5.0"
+		"got": "^10.5.3"
 	},
 	"devDependencies": {
-		"ava": "^1.0.1",
-		"get-stream": "^4.1.0",
-		"nock": "^10.0.5",
-		"xo": "^0.23.0"
+		"ava": "^3.0.2",
+		"get-stream": "^5.1.0",
+		"nock": "^11.7.2",
+		"xo": "^0.25.3"
 	}
 }
