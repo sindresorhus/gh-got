@@ -25,6 +25,7 @@ const create = () => got.extend({
 
 			// `options.body` -> `options.json`
 			options.json = options.body;
+			delete options.body;
 
 			// Don't touch streams
 			if (options.isStream) {
