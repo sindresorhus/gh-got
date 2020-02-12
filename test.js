@@ -28,7 +28,9 @@ test.failing('dedupes slashes', async t => {
 
 test.serial('global token option', async t => {
 	process.env.GITHUB_TOKEN = 'fail';
-	await t.throwsAsync(ghGot.recreate()('users/sindresorhus'), {
+	await t.throwsAsync(
+		ghGot.recreate()('users/sindresorhus'),
+		{
 		message: 'Bad credentials (401)'
 	});
 	process.env.GITHUB_TOKEN = token;
