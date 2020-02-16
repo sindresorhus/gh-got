@@ -1,6 +1,5 @@
 'use strict';
 const got = require('got');
-const packageJson = require('./package.json');
 
 const getRateLimit = headers => ({
 	limit: parseInt(headers['x-ratelimit-limit'], 10),
@@ -12,7 +11,7 @@ const create = () => got.extend({
 	prefixUrl: process.env.GITHUB_ENDPOINT || 'https://api.github.com',
 	headers: {
 		accept: 'application/vnd.github.v3+json',
-		'user-agent': `${packageJson.name}/${packageJson.version} (https://github.com/sindresorhus/gh-got)`
+		'user-agent': 'https://github.com/sindresorhus/gh-got'
 	},
 	responseType: 'json',
 	token: process.env.GITHUB_TOKEN,
