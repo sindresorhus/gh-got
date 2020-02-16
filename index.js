@@ -59,7 +59,18 @@ const create = () => got.extend({
 				}
 			})();
 		}
-	]
+	],
+	hooks: {
+		init: [
+			options => {
+				// TODO: This should be fixed in Got
+				// Remove leading slashes
+				if (typeof options.url === 'string' && options.url.startsWith('/')) {
+					options.url = options.url.slice(1);
+				}
+			}
+		]
+	}
 });
 
 module.exports = create();

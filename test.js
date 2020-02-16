@@ -21,8 +21,7 @@ test('accepts options.prefixUrl without trailing slash', async t => {
 	t.is((await ghGot('users/sindresorhus', {prefixUrl: 'https://api.github.com'})).body.login, 'sindresorhus');
 });
 
-// This should be fixed in Got
-test.failing('dedupes slashes', async t => {
+test('dedupes slashes', async t => {
 	t.is((await ghGot('/users/sindresorhus', {prefixUrl: 'https://api.github.com/'})).body.login, 'sindresorhus');
 });
 
@@ -31,8 +30,9 @@ test.serial('global token option', async t => {
 	await t.throwsAsync(
 		ghGot.recreate()('users/sindresorhus'),
 		{
-		message: 'Bad credentials (401)'
-	});
+			message: 'Bad credentials (401)'
+		}
+	);
 	process.env.GITHUB_TOKEN = token;
 });
 
