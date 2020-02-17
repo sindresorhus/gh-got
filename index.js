@@ -1,54 +1,74 @@
 'use strict';
 const got = require('got');
 
-const getRateLimit = ({headers}) => ({
+const getRateLimit = headers => ({
 	limit: parseInt(headers['x-ratelimit-limit'], 10),
 	remaining: parseInt(headers['x-ratelimit-remaining'], 10),
 	reset: new Date(parseInt(headers['x-ratelimit-reset'], 10) * 1000)
 });
 
-const create = () => got.create({
-	options: got.mergeOptions(got.defaults.options, {
-		json: true,
-		token: process.env.GITHUB_TOKEN,
-		baseUrl: process.env.GITHUB_ENDPOINT || 'https://api.github.com',
-		headers: {
-			accept: 'application/vnd.github.v3+json',
-			'user-agent': 'https://github.com/sindresorhus/gh-got'
-		}
-	}),
+const create = () => got.extend({
+	prefixUrl: process.env.GITHUB_ENDPOINT || 'https://api.github.com',
+	headers: {
+		accept: 'application/vnd.github.v3+json',
+		'user-agent': 'https://github.com/sindresorhus/gh-got'
+	},
+	responseType: 'json',
+	token: process.env.GITHUB_TOKEN,
+	handlers: [
+		(options, next) => {
+			// Authorization
+			if (options.token && !options.headers.authorization) {
+				options.headers.authorization = `token ${options.token}`;
+			}
 
-	methods: got.defaults.methods,
+			// `options.body` -> `options.json`
+			options.json = options.body;
+			delete options.body;
 
-	handler: (options, next) => {
-		if (options.token) {
-			options.headers.authorization = options.headers.authorization || `token ${options.token}`;
-		}
+			// Don't touch streams
+			if (options.isStream) {
+				return next(options);
+			}
 
-		if (options.stream) {
-			return next(options);
-		}
+			// Magic begins
+			return (async () => {
+				try {
+					const response = await next(options);
 
-		// TODO: Use async/await here when Got supports the `handler` being an async function
-		return next(options)
-			.then(response => { // eslint-disable-line promise/prefer-await-to-then
-				response.rateLimit = getRateLimit(response);
-				return response;
-			})
-			.catch(error => {
-				const {response} = error;
+					// Rate limit for the Response object
+					response.rateLimit = getRateLimit(response.headers);
 
-				if (response && response.body) {
-					error.name = 'GitHubError';
-					error.message = `${response.body.message} (${error.statusCode})`;
+					return response;
+				} catch (error) {
+					const {response} = error;
+
+					// Nicer errors
+					if (response && response.body) {
+						error.name = 'GitHubError';
+						error.message = `${response.body.message} (${error.response.statusCode})`;
+					}
+
+					// Rate limit for errors
+					if (response) {
+						error.rateLimit = getRateLimit(response.headers);
+					}
+
+					throw error;
 				}
-
-				if (response) {
-					error.rateLimit = getRateLimit(response);
+			})();
+		}
+	],
+	hooks: {
+		init: [
+			options => {
+				// TODO: This should be fixed in Got
+				// Remove leading slashes
+				if (typeof options.url === 'string' && options.url.startsWith('/')) {
+					options.url = options.url.slice(1);
 				}
-
-				throw error;
-			});
+			}
+		]
 	}
 });
 
