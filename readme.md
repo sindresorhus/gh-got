@@ -1,14 +1,12 @@
 # gh-got [![Build Status](https://travis-ci.org/sindresorhus/gh-got.svg?branch=master)](https://travis-ci.org/sindresorhus/gh-got)
 
-> Convenience wrapper for [`got`](https://github.com/sindresorhus/got) to interact with the [GitHub API](https://developer.github.com/v3/)
-
+> Convenience wrapper for [Got](https://github.com/sindresorhus/got) to interact with the [GitHub API](https://developer.github.com/v3/)
 
 ## Install
 
 ```
 $ npm install gh-got
 ```
-
 
 ## Usage
 
@@ -58,10 +56,9 @@ const ghGot = require('gh-got');
 })();
 ```
 
-
 ## API
 
-Same API as [`got`](https://github.com/sindresorhus/got), including the stream API and aliases, but with some additional options below.
+Same API as [`got`](https://github.com/sindresorhus/got), including options, the stream API, aliases, pagination, etc, but with some additional options below.
 
 Errors are improved by using the custom GitHub error messages. Doesn't apply to the stream API.
 
@@ -77,7 +74,7 @@ Can be set globally with the `GITHUB_TOKEN` environment variable.
 
 #### prefixUrl
 
-Type: `string`<br>
+Type: `string`\
 Default: `https://api.github.com/`
 
 To support [GitHub Enterprise](https://enterprise.github.com).
@@ -86,10 +83,9 @@ Can be set globally with the `GITHUB_ENDPOINT` environment variable.
 
 #### body
 
-Type: `Object`
+Type: `object`
 
 Can be specified as a plain object and will be serialized as JSON with the appropriate headers set.
-
 
 ## Rate limit
 
@@ -105,7 +101,6 @@ const ghGot = require('gh-got');
 	//=> {limit: 5000, remaining: 4899, reset: [Date 2018-12-31T20:45:20.000Z]}
 })();
 ```
-
 
 ## Authorization
 
@@ -133,7 +128,6 @@ const ghGot = require(`gh-got`);
 })();
 ```
 
+## Pagination
 
-## License
-
-MIT © [Sindre Sorhus](https://sindresorhus.com)
+See the [Got docs](https://github.com/sindresorhus/got#pagination).
