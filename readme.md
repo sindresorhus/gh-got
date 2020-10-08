@@ -2,6 +2,8 @@
 
 > Convenience wrapper for [Got](https://github.com/sindresorhus/got) to interact with the [GitHub API](https://developer.github.com/v3/)
 
+Unless you're already using Got, you should probably use GitHub's own [@octokit/rest.js](https://github.com/octokit/rest.js) or [@octokit/graphql.js](https://github.com/octokit/graphql.js) packages instead.
+
 ## Install
 
 ```
