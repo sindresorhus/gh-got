@@ -2,6 +2,8 @@
 
 > Convenience wrapper for [Got](https://github.com/sindresorhus/got) to interact with the [GitHub API](https://developer.github.com/v3/)
 
+If you're not already using Got, you should probably use GitHub’s own [@octokit/rest.js](https://github.com/octokit/rest.js) library.
+
 ## Install
 
 ```
