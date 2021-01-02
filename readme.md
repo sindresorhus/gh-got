@@ -1,4 +1,4 @@
-# gh-got [![Build Status](https://travis-ci.org/sindresorhus/gh-got.svg?branch=master)](https://travis-ci.org/sindresorhus/gh-got)
+# gh-got
 
 > Convenience wrapper for [Got](https://github.com/sindresorhus/got) to interact with the [GitHub API](https://developer.github.com/v3/)
 
