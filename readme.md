@@ -6,8 +6,8 @@ Unless you're already using Got, you should probably use GitHub's own [@octokit/
 
 ## Install
 
-```
-$ npm install gh-got
+```sh
+npm install gh-got
 ```
 
 ## Usage
@@ -15,47 +15,50 @@ $ npm install gh-got
 Instead of:
 
 ```js
-const got = require('got');
+import got from 'got';
+
 const token = 'foo';
 
-(async () => {
-	const {body} = await got('https://api.github.com/users/sindresorhus', {
-		json: true,
-		headers: {
-			'accept': 'application/vnd.github.v3+json',
-			'authorization': `token ${token}`
-		}
-	});
+const {body} = await got('https://api.github.com/users/sindresorhus', {
+	json: true,
+	headers: {
+		'accept': 'application/vnd.github.v3+json',
+		'authorization': `token ${token}`
+	}
+});
 
-	console.log(body.login);
-	//=> 'sindresorhus'
-})();
+console.log(body.login);
+//=> 'sindresorhus'
 ```
 
 You can do:
 
 ```js
-const ghGot = require('gh-got');
+import ghGot from 'gh-got';
 
-(async () => {
-	const {body} = await ghGot('users/sindresorhus', {token: 'foo'});
+const {body} = await ghGot('users/sindresorhus', {
+	context: {
+		token: 'foo'
+	}
+});
 
-	console.log(body.login);
-	//=> 'sindresorhus'
-})();
+console.log(body.login);
+//=> 'sindresorhus'
 ```
 
 Or:
 
 ```js
-const ghGot = require('gh-got');
+import ghGot from 'gh-got';
 
-(async () => {
-	const {body} = await ghGot('https://api.github.com/users/sindresorhus', {token: 'foo'});
+const {body} = await ghGot('https://api.github.com/users/sindresorhus', {
+	context: {
+		token: 'foo'
+	}
+});
 
-	console.log(body.login);
-	//=> 'sindresorhus'
-})();
+console.log(body.login);
+//=> 'sindresorhus'
 ```
 
 ## API
@@ -94,14 +97,12 @@ Can be specified as a plain object and will be serialized as JSON with the appro
 Responses and errors have a `.rateLimit` property with info about the current [rate limit](https://developer.github.com/v3/#rate-limiting). *(This is not yet implemented for the stream API)*
 
 ```js
-const ghGot = require('gh-got');
+import ghGot from 'gh-got';
 
-(async () => {
-	const {rateLimit} = await ghGot('users/sindresorhus');
+const {rateLimit} = await ghGot('users/sindresorhus');
 
-	console.log(rateLimit);
-	//=> {limit: 5000, remaining: 4899, reset: [Date 2018-12-31T20:45:20.000Z]}
-})();
+console.log(rateLimit);
+//=> {limit: 5000, remaining: 4899, reset: [Date 2018-12-31T20:45:20.000Z]}
 ```
 
 ## Authorization
@@ -115,21 +116,19 @@ Authorization for GitHub uses the following logic:
 In most cases, this means you can simply set `GITHUB_TOKEN`, but it also allows it to be overridden by setting `options.token` or `options.headers.authorization` explicitly. For example, if [authenticating as a GitHub App](https://developer.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app), you could do the following:
 
 ```js
-const ghGot = require(`gh-got`);
+import ghGot from 'gh-got';
 
-(async () => {
-	const options = {
-		headers: {
-			authorization: `Bearer ${jwt}`
-		}
-	};
-	const {body} = await ghGot('app', options);
+const options = {
+	headers: {
+		authorization: `Bearer ${jwt}`
+	}
+};
+const {body} = await ghGot('app', options);
 
-	console.log(body.name);
-	//=> 'MyApp'
-})();
+console.log(body.name);
+//=> 'MyApp'
 ```
 
 ## Pagination
 
-See the [Got docs](https://github.com/sindresorhus/got#pagination).
+See the [Got docs](https://github.com/sindresorhus/got/blob/main/documentation/4-pagination.md).
