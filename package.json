@@ -12,11 +12,12 @@
 	},
 	"type": "module",
 	"exports": "./index.js",
+	"sideEffects": false,
 	"engines": {
-		"node": ">=14.16"
+		"node": ">=20"
 	},
 	"scripts": {
-		"test": "xo && ava"
+		"test": "xo && NODE_ENV=test node --test"
 	},
 	"files": [
 		"index.js"
@@ -34,12 +35,11 @@
 		"utility"
 	],
 	"dependencies": {
-		"got": "^12.5.2"
+		"got": "^14.6.1"
 	},
 	"devDependencies": {
-		"ava": "^4.3.3",
-		"get-stream": "^6.0.1",
-		"nock": "^13.2.9",
-		"xo": "^0.52.4"
+		"get-stream": "^9.0.1",
+		"nock": "^14.0.10",
+		"xo": "^1.2.3"
 	}
 }
