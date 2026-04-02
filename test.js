@@ -69,7 +69,7 @@ test('global endpoint option', async () => {
 	await assert.rejects(
 		ghGot.recreate()('users/sindresorhus', {retries: 1}),
 		error => {
-			assert.match(error.message, /Invalid URL/);
+			assert.match(error.message, /Invalid URL/v);
 			return true;
 		},
 	);
@@ -86,7 +86,7 @@ test('endpoint option', async () => {
 			retries: 1,
 		}),
 		error => {
-			assert.match(error.message, /Invalid URL/);
+			assert.match(error.message, /Invalid URL/v);
 			return true;
 		},
 	);
